@@ -13,6 +13,8 @@ public class Equipment {
     @Id
     private String id;
 
+    private String pwd;
+
     @OneToOne(mappedBy = "equipment")
     private UserInfo userInfo;
 
@@ -22,6 +24,14 @@ public class Equipment {
     }
 
     public Equipment() {
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
     public String getId() {
