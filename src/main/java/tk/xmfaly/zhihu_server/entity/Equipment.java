@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity(name = "zhihu_server_equipment")
-@Data
-@NoArgsConstructor
 public class Equipment {
 
     @Id
@@ -18,4 +16,27 @@ public class Equipment {
     @OneToOne(mappedBy = "equipment")
     private UserInfo userInfo;
 
+    public Equipment(String id, UserInfo userInfo) {
+        this.id = id;
+        this.userInfo = userInfo;
+    }
+
+    public Equipment() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
 }

@@ -1,11 +1,12 @@
 package tk.xmfaly.zhihu_server.entity;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "authority")
+@Table(name = "zhihuserver_authority")
 public class Authority {
 
     @Id
@@ -18,13 +19,6 @@ public class Authority {
 
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
     private List<UserInfo> userInfos;
-
-    public Authority(AuthorityName name){
-        this.name = name;
-    }
-
-    public Authority() {
-    }
 
     public int getId() {
         return id;
@@ -48,5 +42,13 @@ public class Authority {
 
     public void setUserInfos(List<UserInfo> userInfos) {
         this.userInfos = userInfos;
+    }
+
+    public Authority(AuthorityName name, List<UserInfo> userInfos) {
+        this.name = name;
+        this.userInfos = userInfos;
+}
+
+    public Authority() {
     }
 }
