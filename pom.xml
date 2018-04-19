@@ -82,13 +82,6 @@
             <version>2.8.0</version>
         </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<version>1.5.12.RELEASE</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>

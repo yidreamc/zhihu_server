@@ -31,10 +31,9 @@ public class FenceController {
 
     @PostMapping("/addfence")
     public Object addfence(@RequestBody Map<String, Object> param) {
+
+        System.out.println(param.toString());
         int uid = Integer.valueOf(param.get("uid").toString());
-
-        String a =  param.get("points").toString();
-
         Gson gson = new Gson();
         FencePoint[] points = gson.fromJson(param.get("points").toString(),FencePoint[].class) ;
 
