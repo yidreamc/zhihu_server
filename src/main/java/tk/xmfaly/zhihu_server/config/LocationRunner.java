@@ -7,7 +7,6 @@ import tk.xmfaly.zhihu_server.service.LocalcationService;
 import tk.xmfaly.zhihu_server.service.SockService;
 import tk.xmfaly.zhihu_server.uitl.ApplicationContextProvider;
 
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 

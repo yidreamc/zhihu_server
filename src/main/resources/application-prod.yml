@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: zhihu_server
   datasource:
     url: jdbc:mysql://120.78.149.248:3306/zhihu_server
     username: root
@@ -26,3 +28,7 @@ jwt:
   header: Authorization
   secret: mySecret
   expiration: 604800
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
