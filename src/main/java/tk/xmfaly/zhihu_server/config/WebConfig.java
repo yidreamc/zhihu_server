@@ -20,6 +20,4 @@ public class WebConfig {
         return null;
     }
 
-
-
 }
