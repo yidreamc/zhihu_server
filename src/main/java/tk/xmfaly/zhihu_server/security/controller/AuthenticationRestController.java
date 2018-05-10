@@ -50,6 +50,7 @@ public class AuthenticationRestController {
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public Object createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
 
+        System.out.println(authenticationRequest.getUsername() == null);
 
 //        // Perform the security
         final Authentication authentication = authenticationManager.authenticate(
