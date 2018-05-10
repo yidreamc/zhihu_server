@@ -25,9 +25,7 @@ public class EquipmentController {
     private EquipmentRepository equipmentRepository;
 
     @PostMapping("/bind")
-    public Response bind(@RequestBody Map<String,String> params){
-        String uid = params.get("uid");
-        String eid = params.get("eid");
+    public Response bind(String uid,String eid){
         UserInfo userInfo = userInfoRepository.findOne(Integer.valueOf(uid));
         Equipment equipment = equipmentRepository.findById(eid);
         if(userInfo ==null || equipment==null){
@@ -38,7 +36,7 @@ public class EquipmentController {
             userInfoRepository.save(userInfo);
             equipment.setUserInfo(userInfo);
             equipmentRepository.save(equipment);
-            return new Response(0,"绑定成功");
+            return new Response(0,"绑定成功",equipment.getPwd());
         }catch (Exception e){
             return new Response(10002,"绑定失败");
         }

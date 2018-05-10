@@ -38,10 +38,12 @@ public class UserInfo {
             name = "user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
+    @JsonIgnore
     private List<Authority> authorities = new ArrayList<>();
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "userinfo",fetch=FetchType.EAGER)
+    @JsonIgnore
     private Set<Fence> fences = new HashSet<>();
 
     public UserInfo(String userName, String passWord, String tel, int age, String addr, String remarks, Equipment equipment, List<Authority> authorities, Set<Fence> fences) {

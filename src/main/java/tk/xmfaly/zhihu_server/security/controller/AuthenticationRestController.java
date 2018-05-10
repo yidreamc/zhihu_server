@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import tk.xmfaly.zhihu_server.dto.Response;
+import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 import tk.xmfaly.zhihu_server.security.JwtTokenUtil;
 import tk.xmfaly.zhihu_server.security.JwtUser;
 import tk.xmfaly.zhihu_server.security.repository.JwtAuthenticationRequest;
@@ -36,11 +38,20 @@ public class AuthenticationRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
+
+    @RequestMapping(value = "/auth2",method = RequestMethod.POST)
+    public Object auth(String uname,String pwd){
+        return createAuthenticationToken(new JwtAuthenticationRequest(uname,pwd));
+    }
+
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public Object createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
 
 
-        // Perform the security
+//        // Perform the security
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
@@ -50,12 +61,13 @@ public class AuthenticationRestController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+
         // Reload password post-security so we can generate token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        return new Response<String>(0,"",token);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)

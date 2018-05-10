@@ -1,5 +1,6 @@
 package tk.xmfaly.zhihu_server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ public class Equipment {
     private String pwd;
 
     @OneToOne(mappedBy = "equipment")
+    @JsonIgnore
     private UserInfo userInfo;
 
     public Equipment(String id, UserInfo userInfo) {

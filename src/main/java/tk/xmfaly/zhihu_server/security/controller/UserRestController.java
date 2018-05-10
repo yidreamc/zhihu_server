@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import tk.xmfaly.zhihu_server.entity.UserInfo;
+import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 import tk.xmfaly.zhihu_server.security.JwtTokenUtil;
 import tk.xmfaly.zhihu_server.security.JwtUser;
 
@@ -23,11 +25,14 @@ public class UserRestController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public JwtUser getAuthenticatedUser(HttpServletRequest request) {
+    public UserInfo getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
+        UserInfo user = userInfoRepository.findByUserName(username);
         return user;
     }
 
