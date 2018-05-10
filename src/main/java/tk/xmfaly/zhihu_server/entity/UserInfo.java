@@ -43,7 +43,6 @@ public class UserInfo {
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "userinfo",fetch=FetchType.EAGER)
-    @JsonIgnore
     private Set<Fence> fences = new HashSet<>();
 
     public UserInfo(String userName, String passWord, String tel, int age, String addr, String remarks, Equipment equipment, List<Authority> authorities, Set<Fence> fences) {

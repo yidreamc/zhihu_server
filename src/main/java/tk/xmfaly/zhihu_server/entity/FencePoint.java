@@ -1,5 +1,6 @@
 package tk.xmfaly.zhihu_server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ public class FencePoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private int id;
 
     //经度
@@ -20,6 +22,7 @@ public class FencePoint {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fence_id")
+    @JsonIgnore
     private Fence fence;
 
     public FencePoint(String longitude, String latitude, Fence fence) {

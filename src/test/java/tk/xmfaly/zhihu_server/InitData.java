@@ -30,7 +30,7 @@ public class InitData {
 
     @Test
     public void clear() {
-        UserInfo userInfo = userInfoRepository.findOne(1);
+        UserInfo userInfo = userInfoRepository.findOne(13);
         Set<Fence> fences = userInfo.getFences();
         userInfo.setFences(null);
         userInfoRepository.save(userInfo);
@@ -57,7 +57,7 @@ public class InitData {
 
     @Test
     public void initFence() {
-        UserInfo userInfo = userInfoRepository.findOne(1);
+        UserInfo userInfo = userInfoRepository.findOne(13);
 
         Fence fence = new Fence();
 

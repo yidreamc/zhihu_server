@@ -1,4 +1,4 @@
-package tk.xmfaly.zhihu_server.security.controller;
+package tk.xmfaly.zhihu_server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
