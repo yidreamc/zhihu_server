@@ -12,6 +12,7 @@ public class Fence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL)

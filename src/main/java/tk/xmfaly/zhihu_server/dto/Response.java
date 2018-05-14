@@ -1,14 +1,12 @@
 package tk.xmfaly.zhihu_server.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Response<T> {
 
     @NonNull
@@ -16,4 +14,5 @@ public class Response<T> {
     @NonNull
     private String msg;
     private T data;
+
 }
