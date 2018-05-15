@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 import tk.xmfaly.zhihu_server.entity.*;
 import tk.xmfaly.zhihu_server.repository.EquipmentRepository;
+import tk.xmfaly.zhihu_server.repository.FencePointRepository;
+import tk.xmfaly.zhihu_server.repository.FenceRepository;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 import tk.xmfaly.zhihu_server.uitl.PolyUtils;
 
@@ -25,7 +27,7 @@ import java.util.Set;
 @Log
 public class LocalcationService extends Thread {
 
-    public interface OnDisconnectedListener{
+    public interface OnDisconnectedListener {
         void onDisonnected(LocalcationService connection);
     }
 
@@ -41,14 +43,20 @@ public class LocalcationService extends Thread {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
+    @Autowired
+    private FenceRepository fenceRepository;
+
+    @Autowired
+    private FencePointRepository fencePointRepository;
+
     @Override
     public void run() {
         socket = SockService.getSocket();
-        while(socket.isConnected()){
+        while (socket.isConnected()) {
             InputStream in;
             try {
                 in = socket.getInputStream();
-                if(in.available() > 0){
+                if (in.available() > 0) {
                     OutputStream out = socket.getOutputStream();
                     byte[] recData = new byte[1024];
                     in.read(recData);
@@ -59,44 +67,40 @@ public class LocalcationService extends Thread {
                     String timestamp = locations[1];
                     String longitude = locations[2];
                     String latitude = locations[3];
-                    Location location = new Location(eid,timestamp,longitude,latitude);
+                    Location location = new Location(eid, timestamp, longitude, latitude);
                     mongoTemplate.save(location);
 
 
                     //根据设备id找到用户
                     Equipment equipment = equipmentRepository.findById(eid);
-                    if(equipment != null){
+                    if (equipment != null) {
 
                         log.info("设备: " + eid);
-                        UserInfo userInfo = userInfoRepository.findByEquipment(equipment);
-                        if(userInfo != null){
+                        UserInfo userInfo = userInfoRepository.findOne(equipment.getUserInfoId());
+                        if (userInfo != null) {
                             log.info("用户: " + userInfo.getId());
 
                             //获取围栏
-                            Set<Fence> fences = userInfo.getFences();
+                            Fence fence = fenceRepository.findByUserinfoId(userInfo.getId());
 
-                            //判断用户是否在围栏内
-                            Iterator<Fence> iterator = fences.iterator();
-                            while (iterator.hasNext()){
-                                Fence fence = iterator.next();
-                                List<Point2D.Double> pts = new ArrayList<>();
+                            //获取围栏点
+                            Iterable<FencePoint> fencePoints = fencePointRepository.findByFenceId(fence.getId());
 
-                                //获取围栏点
-                                Set<FencePoint> fencePoints = fence.getFencePoints();
-                                Iterator<FencePoint> fencePointIterator = fencePoints.iterator();
-                                while (fencePointIterator.hasNext()){
-                                    FencePoint fencePoint = fencePointIterator.next();
-                                    Point2D.Double point = new Point2D.Double(Double.valueOf(fencePoint.getLongitude()),Double.valueOf(fencePoint.getLatitude()));
-                                    pts.add(point);
-                                }
-                                Boolean isFence = PolyUtils.IsPtInPoly(new Point2D.Double(Double.valueOf(longitude),Double.valueOf(latitude)),pts);
-                                if(isFence == false){
-                                    log.info("用户走出围栏");
-                                    break;
-                                }else {
-                                    log.info("未出围栏");
-                                }
 
+                            List<Point2D.Double> pts = new ArrayList<>();
+
+                            Iterator<FencePoint> fencePointIterator = fencePoints.iterator();
+                            while (fencePointIterator.hasNext()) {
+                                FencePoint fencePoint = fencePointIterator.next();
+                                Point2D.Double point = new Point2D.Double(Double.valueOf(fencePoint.getLongitude()), Double.valueOf(fencePoint.getLatitude()));
+                                pts.add(point);
+                            }
+                            Boolean isFence = PolyUtils.IsPtInPoly(new Point2D.Double(Double.valueOf(longitude), Double.valueOf(latitude)), pts);
+                            if (isFence == false) {
+                                log.info("用户走出围栏");
+                                break;
+                            } else {
+                                log.info("未出围栏");
                             }
                         }
                     }

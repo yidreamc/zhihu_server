@@ -14,7 +14,9 @@ import tk.xmfaly.zhihu_server.repository.FencePointRepository;
 import tk.xmfaly.zhihu_server.repository.FenceRepository;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/fence")
@@ -26,29 +28,33 @@ public class FenceController {
     @Autowired
     private FencePointRepository fencePointRepository;
 
-    @Autowired
-    private UserInfoRepository userInfoRepository;
 
     @PostMapping("/addfence")
     public Object addfence(@RequestBody Map<String, Object> param) {
+        return set(param);
+    }
 
-        System.out.println(param.toString());
+    @PostMapping("/setfence")
+    public Object set(@RequestBody Map<String, Object> param) {
         int uid = Integer.valueOf(param.get("uid").toString());
         Gson gson = new Gson();
-        FencePoint[] points = gson.fromJson(param.get("points").toString(),FencePoint[].class) ;
-
-
+        FencePoint[] points = gson.fromJson(param.get("points").toString(), FencePoint[].class);
         try {
             Fence fence = new Fence();
-            for (int i = 0; i < points.length; i++) {
-                fence.getFencePoints().add(points[i]);
-                points[i].setFence(fence);
+            fence.setUserinfoId(uid);
+
+            //删除原来的围栏
+            Fence fence1 = fenceRepository.findByUserinfoId(uid);
+            if (fence1 != null) {
+                fenceRepository.delete(fence1);
             }
-            fenceRepository.save(fence);
-            UserInfo userInfo = userInfoRepository.findOne(uid);
-            userInfo.getFences().add(fence);
-            fence.setUserinfo(userInfo);
-            userInfoRepository.save(userInfo);
+
+
+            fence = fenceRepository.save(fence);
+            for (int i = 0; i < points.length; i++) {
+                points[i].setFenceId(fence.getId());
+                fencePointRepository.save(points[i]);
+            }
             return new Response(0, "success");
         } catch (Exception e) {
             return new Response(1, "error");

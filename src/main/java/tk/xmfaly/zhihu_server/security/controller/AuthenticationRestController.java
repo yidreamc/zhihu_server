@@ -10,11 +10,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tk.xmfaly.zhihu_server.dto.Response;
+import tk.xmfaly.zhihu_server.entity.UserInfo;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 import tk.xmfaly.zhihu_server.security.JwtTokenUtil;
 import tk.xmfaly.zhihu_server.security.JwtUser;
@@ -50,17 +52,28 @@ public class AuthenticationRestController {
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public Object createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
 
-        System.out.println(authenticationRequest.getUsername() == null);
+//        System.out.println(authenticationRequest.getUsername() == null);
 
 //        // Perform the security
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword()
-                )
-        );
+//        final Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        authenticationRequest.getUsername(),
+//                        authenticationRequest.getPassword()
+//                )
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        UserInfo userInfo = userInfoRepository.findByUserName(authenticationRequest.getUsername());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if(userInfo == null){
+            return new Response(10004,"用户名不存在");
+        }
+
+        if(!encoder.matches(authenticationRequest.getPassword(),userInfo.getPassWord())){
+            return new Response(10005,"密码错误");
+        }
+
 
 
         // Reload password post-security so we can generate token

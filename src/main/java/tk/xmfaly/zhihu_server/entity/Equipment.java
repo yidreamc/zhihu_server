@@ -1,12 +1,7 @@
 package tk.xmfaly.zhihu_server.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity(name = "zhihu_server_equipment")
 public class Equipment {
@@ -16,14 +11,8 @@ public class Equipment {
 
     private String pwd;
 
-    @OneToOne(mappedBy = "equipment")
-    @JsonIgnore
-    private UserInfo userInfo;
+    private int userInfoId;
 
-    public Equipment(String id, UserInfo userInfo) {
-        this.id = id;
-        this.userInfo = userInfo;
-    }
 
     public Equipment() {
     }
@@ -44,11 +33,11 @@ public class Equipment {
         this.id = id;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public int getUserInfoId() {
+        return userInfoId;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public void setUserInfoId(int userInfoId) {
+        this.userInfoId = userInfoId;
     }
 }

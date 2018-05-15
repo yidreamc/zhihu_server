@@ -1,7 +1,7 @@
 package tk.xmfaly.zhihu_server.config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tk.xmfaly.zhihu_server.service.LocalcationService;
 
 import java.io.IOException;
 import java.net.ServerSocket;

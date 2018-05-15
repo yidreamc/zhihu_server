@@ -22,9 +22,8 @@ public class InitUser {
     @Test
     public void initUser(){
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserName("yang");
-
-        userInfo.setPassWord(new BCryptPasswordEncoder().encode("yang"));
+        userInfo.setUserName("zhihutest");
+        userInfo.setPassWord(new BCryptPasswordEncoder().encode("123456"));
         userInfoRepository.save(userInfo);
     }
 

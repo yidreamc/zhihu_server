@@ -7,12 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tk.xmfaly.zhihu_server.dto.Response;
+import tk.xmfaly.zhihu_server.entity.Fence;
+import tk.xmfaly.zhihu_server.entity.FencePoint;
 import tk.xmfaly.zhihu_server.entity.UserInfo;
+import tk.xmfaly.zhihu_server.repository.FencePointRepository;
+import tk.xmfaly.zhihu_server.repository.FenceRepository;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 import tk.xmfaly.zhihu_server.security.JwtTokenUtil;
 import tk.xmfaly.zhihu_server.security.JwtUser;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserRestController {
@@ -29,12 +35,30 @@ public class UserRestController {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
+    @Autowired
+    private FenceRepository fenceRepository;
+
+    @Autowired
+    private FencePointRepository fencePointRepository;
+
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Response getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         UserInfo user = userInfoRepository.findByUserName(username);
-        return new Response(0,"success",user);
+
+        Iterable<FencePoint> fencePoints = fencePointRepository.findByFenceId(fenceRepository.findByUserinfoId(user.getId()).getId());
+        Map<String,Object> res = new HashMap<>();
+        res.put("id",user.getId());
+        res.put("userName",user.getUserName());
+        res.put("tel",user.getTel());
+        res.put("age",user.getAge());
+        res.put("addr",user.getAddr());
+        res.put("remark",user.getRemarks());
+        res.put("fence",fencePoints);
+
+
+        return new Response(0,"success",res);
     }
 
 }

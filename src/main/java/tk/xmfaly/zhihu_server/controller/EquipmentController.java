@@ -32,9 +32,7 @@ public class EquipmentController {
             return new Response(10001,"用户名或设备id不存在");
         }
         try {
-            userInfo.setEquipment(equipment);
-            userInfoRepository.save(userInfo);
-            equipment.setUserInfo(userInfo);
+            equipment.setUserInfoId(userInfo.getId());
             equipmentRepository.save(equipment);
             return new Response(0,"绑定成功",equipment.getPwd());
         }catch (Exception e){

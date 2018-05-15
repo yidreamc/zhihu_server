@@ -19,15 +19,13 @@ public class FencePoint {
     //纬度
     private String latitude;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fence_id")
     @JsonIgnore
-    private Fence fence;
+    private int fenceId;
 
-    public FencePoint(String longitude, String latitude, Fence fence) {
+    public FencePoint(String longitude, String latitude, int fenceId) {
         this.longitude = longitude;
         this.latitude = latitude;
-        this.fence = fence;
+        this.fenceId = fenceId;
     }
 
     public FencePoint() {
@@ -57,11 +55,11 @@ public class FencePoint {
         this.latitude = latitude;
     }
 
-    public Fence getFence() {
-        return fence;
+    public int getFenceId() {
+        return fenceId;
     }
 
-    public void setFence(Fence fence) {
-        this.fence = fence;
+    public void setFenceId(int fenceId) {
+        this.fenceId = fenceId;
     }
 }

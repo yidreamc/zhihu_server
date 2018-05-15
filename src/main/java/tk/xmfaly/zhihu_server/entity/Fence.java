@@ -15,18 +15,8 @@ public class Fence {
     @JsonIgnore
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userinfo_id")
-    @JsonIgnore
-    private UserInfo userinfo;
+    private int userinfoId;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "fence",fetch=FetchType.EAGER)
-    private Set<FencePoint> fencePoints = new HashSet<>();
-
-    public Fence(UserInfo userinfo, Set<FencePoint> fencePoints) {
-        this.userinfo = userinfo;
-        this.fencePoints = fencePoints;
-    }
 
     public Fence() {
     }
@@ -39,19 +29,11 @@ public class Fence {
         this.id = id;
     }
 
-    public UserInfo getUserinfo() {
-        return userinfo;
+    public int getUserinfoId() {
+        return userinfoId;
     }
 
-    public void setUserinfo(UserInfo userinfo) {
-        this.userinfo = userinfo;
-    }
-
-    public Set<FencePoint> getFencePoints() {
-        return fencePoints;
-    }
-
-    public void setFencePoints(Set<FencePoint> fencePoints) {
-        this.fencePoints = fencePoints;
+    public void setUserinfoId(int userinfoId) {
+        this.userinfoId = userinfoId;
     }
 }

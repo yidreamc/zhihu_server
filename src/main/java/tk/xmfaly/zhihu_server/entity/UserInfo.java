@@ -29,10 +29,6 @@ public class UserInfo {
 
     private String remarks;
 
-    @OneToOne
-    @JoinTable(name = "user_equipment", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "equipment_id"))
-    private Equipment equipment;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_authority",
@@ -41,20 +37,14 @@ public class UserInfo {
     @JsonIgnore
     private List<Authority> authorities = new ArrayList<>();
 
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "userinfo",fetch=FetchType.EAGER)
-    private Set<Fence> fences = new HashSet<>();
-
-    public UserInfo(String userName, String passWord, String tel, int age, String addr, String remarks, Equipment equipment, List<Authority> authorities, Set<Fence> fences) {
+    public UserInfo(String userName, String passWord, String tel, int age, String addr, String remarks, List<Authority> authorities) {
         this.userName = userName;
         this.passWord = passWord;
         this.tel = tel;
         this.age = age;
         this.addr = addr;
         this.remarks = remarks;
-        this.equipment = equipment;
         this.authorities = authorities;
-        this.fences = fences;
     }
 
     public UserInfo() {
@@ -116,14 +106,6 @@ public class UserInfo {
         this.remarks = remarks;
     }
 
-    public Equipment getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
-    }
-
     public List<Authority> getAuthorities() {
         return authorities;
     }
@@ -132,11 +114,4 @@ public class UserInfo {
         this.authorities = authorities;
     }
 
-    public Set<Fence> getFences() {
-        return fences;
-    }
-
-    public void setFences(Set<Fence> fences) {
-        this.fences = fences;
-    }
 }

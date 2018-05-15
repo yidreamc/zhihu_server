@@ -8,7 +8,7 @@ public interface UserInfoRepository extends CrudRepository<UserInfo,Integer>{
 
     UserInfo findByUserName(String username);
 
-    UserInfo findByEquipment(Equipment equipment);
-
     UserInfo findByTel(String tel);
+
+    UserInfo findFirstByUserName(String username);
 }

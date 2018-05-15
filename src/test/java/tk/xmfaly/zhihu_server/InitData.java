@@ -1,5 +1,6 @@
 package tk.xmfaly.zhihu_server;
 
+import com.aliyuncs.exceptions.ClientException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import tk.xmfaly.zhihu_server.entity.UserInfo;
 import tk.xmfaly.zhihu_server.repository.FencePointRepository;
 import tk.xmfaly.zhihu_server.repository.FenceRepository;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
+import tk.xmfaly.zhihu_server.service.SendMessageService;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -28,51 +30,10 @@ public class InitData {
     @Autowired
     private FenceRepository fenceRepository;
 
-    @Test
-    public void clear() {
-        UserInfo userInfo = userInfoRepository.findOne(13);
-        Set<Fence> fences = userInfo.getFences();
-        userInfo.setFences(null);
-        userInfoRepository.save(userInfo);
-
-        Iterator<Fence> fenceIterator = fences.iterator();
-        while (fenceIterator.hasNext()) {
-            Fence f = fenceIterator.next();
-            Set<FencePoint> fencePoints = f.getFencePoints();
-            f.setFencePoints(null);
-            fenceRepository.save(f);
-            Iterator<FencePoint> fencePointIterator = fencePoints.iterator();
-            while (fencePointIterator.hasNext()) {
-                FencePoint fencePoint = fencePointIterator.next();
-                fencePoint.setFence(null);
-                fencePointRepository.save(fencePoint);
-                fencePointRepository.delete(fencePoint.getId());
-            }
-            f.setUserinfo(null);
-            fenceRepository.save(f);
-            fenceRepository.delete(f.getId());
-        }
-
-    }
 
     @Test
-    public void initFence() {
-        UserInfo userInfo = userInfoRepository.findOne(13);
+    public void initFence() throws ClientException {
 
-        Fence fence = new Fence();
-
-        FencePoint fencePoint = new FencePoint("100.1","100.1",fence);
-        FencePoint fencePoint2 = new FencePoint("200.1","100.1",fence);
-        FencePoint fencePoint3 = new FencePoint("100.1","200.1",fence);
-        FencePoint fencePoint4 = new FencePoint("200.1","200.1",fence);
-        fence.getFencePoints().add(fencePoint);
-        fence.getFencePoints().add(fencePoint2);
-        fence.getFencePoints().add(fencePoint3);
-        fence.getFencePoints().add(fencePoint4);
-        fenceRepository.save(fence);
-
-        fence.setUserinfo(userInfo);
-        userInfo.getFences().add(fence);
-        userInfoRepository.save(userInfo);
+        SendMessageService.sendMessage("17866622948","123");
     }
 }

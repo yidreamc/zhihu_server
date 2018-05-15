@@ -23,20 +23,6 @@ public class ZhihuServerApplicationTests {
 	@Test
 	public void contextLoads() {
 
-		UserInfo userInfo = userInfoRepository.findOne(1);
-
-		Set<Fence> fences = userInfo.getFences();
-
-		Iterator<Fence> iterator = fences.iterator();
-		while (iterator.hasNext()){
-			Fence fence = iterator.next();
-			Iterator<FencePoint> iterator1 = fence.getFencePoints().iterator();
-
-			while (iterator1.hasNext()){
-				FencePoint fencePoint = iterator1.next();
-				System.out.println(fencePoint.getLatitude());
-			}
-		}
 	}
 
 }
