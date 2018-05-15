@@ -1,5 +1,7 @@
 package tk.xmfaly.zhihu_server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -11,6 +13,7 @@ public class Equipment {
 
     private String pwd;
 
+    @JsonIgnore
     private int userInfoId;
 
 
