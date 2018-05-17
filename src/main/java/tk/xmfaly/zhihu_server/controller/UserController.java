@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tk.xmfaly.zhihu_server.dto.Response;
 import tk.xmfaly.zhihu_server.entity.UserInfo;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
+import tk.xmfaly.zhihu_server.service.TestMessage;
 
 import java.util.Map;
 
@@ -19,15 +20,20 @@ public class UserController {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
+    @Autowired
+    private TestMessage testMessage;
+
     @PostMapping("/reg")
-    public Response reg(@RequestBody Map<String, String> param) {
-        String uname = param.get("uname");
-        String pwd = param.get("pwd");
-        String tel = param.get("tel");
+    public Response reg(String uname,String pwd,String tel,String code) {
         UserInfo userInfo = userInfoRepository.findByTel(tel);
         if (userInfo != null) {
             return new Response(1, "手机号已经被注册！");
         }
+
+        if(!testMessage.testMessage(uname,code)){
+            return new Response(10008,"验证码错误");
+        }
+
         userInfo = new UserInfo();
         userInfo.setPassWord(new BCryptPasswordEncoder().encode(pwd));
         userInfo.setUserName(uname);

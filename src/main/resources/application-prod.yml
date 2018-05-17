@@ -28,7 +28,3 @@ jwt:
   header: Authorization
   secret: mySecret
   expiration: 604800
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8000/eureka/
