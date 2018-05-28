@@ -13,4 +13,6 @@ public interface UserInfoRepository extends CrudRepository<UserInfo,Integer>{
     UserInfo findFirstByUserName(String username);
 
     UserInfo findFirstByTel(String tel);
+
+    UserInfo findFirstByQOpenId(String id);
 }

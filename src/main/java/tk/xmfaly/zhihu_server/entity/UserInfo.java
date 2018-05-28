@@ -29,6 +29,9 @@ public class UserInfo {
 
     private String remarks;
 
+    @JsonIgnore
+    private String qOpenId;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_authority",
@@ -45,6 +48,14 @@ public class UserInfo {
         this.addr = addr;
         this.remarks = remarks;
         this.authorities = authorities;
+    }
+
+    public String getqOpenId() {
+        return qOpenId;
+    }
+
+    public void setqOpenId(String qOpenId) {
+        this.qOpenId = qOpenId;
     }
 
     public UserInfo() {

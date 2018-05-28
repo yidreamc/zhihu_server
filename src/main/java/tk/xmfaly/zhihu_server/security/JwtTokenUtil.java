@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import tk.xmfaly.zhihu_server.entity.UserInfo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -82,6 +83,12 @@ public class JwtTokenUtil implements Serializable {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
     }
+
+    public String generateToken(UserInfo userInfo){
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, userInfo.getUserName());
+    }
+
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         final Date createdDate = new Date();
