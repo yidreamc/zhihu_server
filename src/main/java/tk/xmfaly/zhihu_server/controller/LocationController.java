@@ -8,6 +8,9 @@ import tk.xmfaly.zhihu_server.dto.Response;
 import tk.xmfaly.zhihu_server.entity.Location;
 import tk.xmfaly.zhihu_server.repository.LocationRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/location")
 public class LocationController {
@@ -19,9 +22,9 @@ public class LocationController {
     @GetMapping("/getLocation")
     public Response getLocation(String eid) {
         Location location = locationRepository.findLocationByEid(eid);
-
-        System.out.println(location.getLatitude());
-        return new Response(0, "", "{longitude:" +
-                location.getLongitude() + ",latitude:" + location.getLatitude() + "}");
+        Map<String,Object> map = new HashMap<>();
+        map.put("longitude",location.getLongitude().trim());
+        map.put("latitude",location.getLatitude().trim());
+        return new Response(0, "", map);
     }
 }
