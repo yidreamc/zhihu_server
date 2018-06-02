@@ -18,7 +18,7 @@ import tk.xmfaly.zhihu_server.repository.FencePointRepository;
 import tk.xmfaly.zhihu_server.repository.FenceRepository;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 import tk.xmfaly.zhihu_server.security.JwtTokenUtil;
-import tk.xmfaly.zhihu_server.security.JwtUser;
+import tk.xmfaly.zhihu_server.service.upload.FileUploadService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -47,6 +47,11 @@ public class UserRestController {
 
     @Autowired
     private EquipmentRepository equipmentRepository;
+
+    @Autowired
+    private FileUploadService fileUploadService;
+
+    String host = "http://120.78.149.248:8080/";
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Response getAuthenticatedUser(HttpServletRequest request) {
@@ -79,9 +84,30 @@ public class UserRestController {
     }
 
     //头像、年龄、体重、身高、地址、手机、备注
-//    @PostMapping("/updateUserInfo")
-//    public Response updateUserInfo(MultipartFile avatar, String age, String weight, String height, String addr, String phone, String note){
-//
-//    }
+    @PostMapping("/updateUserInfo")
+    public Response updateUserInfo(MultipartFile avatar, int age, String weight, String height, String addr, String phone, String remark,int uid){
+        try {
+            UserInfo userInfo = userInfoRepository.findOne(uid);
+            if(userInfo == null){
+                return new Response(2,"用户不存在");
+            }
+            userInfo.setTel(phone);
+            userInfo.setAge(age);
+            userInfo.setWeight(weight);
+            userInfo.setHeight(height);
+            userInfo.setAddr(addr);
+            userInfo.setRemarks(remark);
+            String name = fileUploadService.upload(avatar);
+            userInfo.setAvatar(host + name);
+            userInfoRepository.save(userInfo);
+
+            return new Response(0,"保存成功");
+
+        }catch (Exception e){
+            return new Response(-1,e.getMessage());
+        }
+
+
+    }
 
 }

@@ -29,6 +29,13 @@ public class UserInfo {
 
     private String remarks;
 
+
+    private String weight;
+
+    private String height;
+
+    private String avatar;
+
     @JsonIgnore
     private String qOpenId;
 
@@ -125,4 +132,27 @@ public class UserInfo {
         this.authorities = authorities;
     }
 
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }
