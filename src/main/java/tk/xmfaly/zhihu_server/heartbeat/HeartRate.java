@@ -3,6 +3,7 @@ package tk.xmfaly.zhihu_server.heartbeat;
 public class HeartRate {
     private int deviceid;
     private int heartrate;
+    private String timestemp;
 
     public int getDeviceid() {
         return deviceid;
@@ -11,8 +12,6 @@ public class HeartRate {
     public void setDeviceid(int deviceid) {
         this.deviceid = deviceid;
     }
-
-    private String timestemp;
 
     public int getHeartrate() {
         return heartrate;
@@ -28,5 +27,14 @@ public class HeartRate {
 
     public void setTimestemp(String timestemp) {
         this.timestemp = timestemp;
+    }
+
+    public HeartRate(int deviceid, int heartrate, String timestemp) {
+        this.deviceid = deviceid;
+        this.heartrate = heartrate;
+        this.timestemp = timestemp;
+    }
+
+    public HeartRate() {
     }
 }

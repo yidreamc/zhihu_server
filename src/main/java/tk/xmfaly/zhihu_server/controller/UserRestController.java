@@ -3,9 +3,11 @@ package tk.xmfaly.zhihu_server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import tk.xmfaly.zhihu_server.dto.Response;
 import tk.xmfaly.zhihu_server.entity.Equipment;
 import tk.xmfaly.zhihu_server.entity.Fence;
@@ -75,5 +77,11 @@ public class UserRestController {
 
         return new Response(0,"success",res);
     }
+
+    //头像、年龄、体重、身高、地址、手机、备注
+//    @PostMapping("/updateUserInfo")
+//    public Response updateUserInfo(MultipartFile avatar, String age, String weight, String height, String addr, String phone, String note){
+//
+//    }
 
 }
