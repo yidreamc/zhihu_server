@@ -1,18 +1,25 @@
 package tk.xmfaly.zhihu_server.heartbeat;
 
-import com.sun.org.apache.bcel.internal.generic.DADD;
-import org.hibernate.boot.jaxb.internal.stax.HbmEventReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import  java.math.*;
 import java.text.SimpleDateFormat;
-import  java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static java.lang.Math.min;
-
+@Service
 public class HeartbeatProcessService {
+
+
+    @Autowired
+    private DailyHeartBeatRepository dailyHeartBeatRepository;
+
     @Autowired
     private HeartRateRepository heartRateRepository;
+
+
     /**从服务器获取数据存入vector
      TodayHeartInfo(保存昨天21:00至今天21:00采集的心跳数据) 中
      HistoryAveHeartBeat(保存用户的之前的每日平均心跳)
@@ -33,39 +40,48 @@ public class HeartbeatProcessService {
             todayAve += nowHeartRate;
             if(nowHeartRate>todayMax){
                 todayMax = nowHeartRate;
-                maxHeartDate = it.getTimestemp();
+                maxHeartDate = it.getTimestamp();
             }
             if(nowHeartRate<todayMin){
                 todayMin = nowHeartRate;
-                minHeartDate = it.getTimestemp();
+                minHeartDate = it.getTimestamp();
             }
 
         }
         //SimpleDateFormat ymdhms = new SimpleDateFormat("yyyyMMdd");//设置日期格式
         //String date = ymdhms.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
         todayAve = todayAve/(1.0*Listsize);
-        List<HeartRate> PreHeartBeatInfo = new ArrayList<>();
+        List<DailyHeartBeat> PreHeartBeatInfo = new ArrayList<>();
+        PreHeartBeatInfo = dailyHeartBeatRepository.qureryHeartRatebyId(deviceid);
+        SimpleDateFormat ymd = new SimpleDateFormat("yyyyMMdd");//设置日期格式
+        String date = ymd.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
         int high = 0,low = 0;
-        int PreListSize = PreHeartBeatInfo.size();
-        for (int i=0;i<min(PreListSize,5);++i){
-            HeartRate it = PreHeartBeatInfo.get(i);
-            double preHeartRate = (double)it.getHeartrate();
-            if (todayAve>preHeartRate){
-                high++;
-            }
-            if (todayAve<preHeartRate){
-                low++;
+        if (PreHeartBeatInfo.size()!=0){
+            int PreListSize = PreHeartBeatInfo.size();
+            for (int i=0;i<min(PreListSize,5);++i){
+                DailyHeartBeat it = PreHeartBeatInfo.get(i);
+                double preHeartRate = (double)it.getHeartrate();
+                if (todayAve>preHeartRate){
+                    high++;
+                }
+                if (todayAve<preHeartRate){
+                    low++;
+                }
             }
         }
+        DailyHeartBeat todayAveRate = new DailyHeartBeat();
+        todayAveRate.setDeviceid(deviceid);todayAveRate.setHeartrate((int)todayAve);
+        todayAveRate.setTimestamp(date);
+        dailyHeartBeatRepository.saveHeartRate(todayAveRate);
         System.out.println("您今天的平均心率为"+todayAve);
 
         System.out.println("您今天的最高心率出现在"+maxHeartDate.substring(8,10)+"点"+maxHeartDate.substring(10,12)+"分");
 
-        System.out.println("最高心率为"+todayAve);
+        System.out.println("最高心率为"+todayMax);
 
         System.out.println("您今天的最高心率出现在"+minHeartDate.substring(8,10)+"点"+minHeartDate.substring(10,12)+"分");
 
-        System.out.println("最低心率为"+todayAve);
+        System.out.println("最低心率为"+todayMin);
         if (low>=4){
             System.out.println("您的心率比五天前的较低请注意调节身体状况");
         }

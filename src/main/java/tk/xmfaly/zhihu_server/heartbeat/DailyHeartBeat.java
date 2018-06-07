@@ -1,6 +1,6 @@
 package tk.xmfaly.zhihu_server.heartbeat;
 
-public class HeartRate {
+public class DailyHeartBeat {
     private int deviceid;
     private int heartrate;
     private String timestamp;
@@ -28,13 +28,6 @@ public class HeartRate {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
-    public HeartRate(int deviceid, int heartrate, String timestamp) {
-        this.deviceid = deviceid;
-        this.heartrate = heartrate;
-        this.timestamp = timestamp;
-    }
-
-    public HeartRate() {
+    public DailyHeartBeat() {
     }
 }
