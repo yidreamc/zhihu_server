@@ -10,6 +10,7 @@ import tk.xmfaly.zhihu_server.dto.Response;
 import tk.xmfaly.zhihu_server.entity.UserInfo;
 import tk.xmfaly.zhihu_server.repository.UserInfoRepository;
 import tk.xmfaly.zhihu_server.security.JwtTokenUtil;
+import tk.xmfaly.zhihu_server.service.TestMessage;
 
 import java.util.Random;
 
@@ -22,6 +23,9 @@ public class QAuthController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private TestMessage testMessage;
 
     @GetMapping("/qIsOurUser")
     public Response qIsourUser(String openId){
@@ -41,16 +45,21 @@ public class QAuthController {
     }
 
     @PostMapping("/qreg")
-    public Response qreg(String tel,String openId,String uname){
+    public Response qreg(String tel,String openId,String uname,String code,String pwd){
 
         UserInfo userInfo = userInfoRepository.findByTel(tel);
         if (userInfo != null) {
             return new Response(1, "手机号已经被注册！");
         }
+
+        if(!testMessage.testMessage(uname,code)){
+            return new Response(10008,"验证码错误");
+        }
         userInfo = new UserInfo();
         userInfo.setUserName(uname + getRandomString(5));
         userInfo.setTel(tel);
         userInfo.setqOpenId(openId);
+        userInfo.setPassWord(new BCryptPasswordEncoder().encode(pwd));
         try {
             userInfoRepository.save(userInfo);
             String token = jwtTokenUtil.generateToken(userInfo);
