@@ -90,7 +90,11 @@ public class HeartbeatProcessService {
 
         Map<String,Object> res = new HashMap<>();
         res.put("todayAve",todayAve);
-
+        res.put("todayMax",todayMax);
+        res.put("todayMin",todayMin);
+        res.put("HeartBeatList",HeartBeatList);
+        res.put("PreHeartBeatInfo",PreHeartBeatInfo);
+        res.put("todayAveRate",todayAveRate);
 
         return new Response(0,"",res);
     }
