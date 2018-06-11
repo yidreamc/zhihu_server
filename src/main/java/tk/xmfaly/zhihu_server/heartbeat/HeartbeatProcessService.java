@@ -2,11 +2,10 @@ package tk.xmfaly.zhihu_server.heartbeat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.xmfaly.zhihu_server.dto.Response;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.min;
 @Service
@@ -25,7 +24,7 @@ public class HeartbeatProcessService {
      HistoryAveHeartBeat(保存用户的之前的每日平均心跳)
      算出用户今日的平均心跳与之前数据进行比较
     **/
-    public int HeartBeatProcess(int deviceid){
+    public Response HeartBeatProcess(int deviceid){
         List<HeartRate> HeartBeatList = new ArrayList<>();
         HeartBeatList = heartRateRepository.qureryHeartRatebyId(deviceid);
         double todayAve = 0;
@@ -88,6 +87,11 @@ public class HeartbeatProcessService {
         if (high>=4){
             System.out.println("您的心率比五天前的较高请注意身体");
         }
-        return 0;
+
+        Map<String,Object> res = new HashMap<>();
+        res.put("todayAve",todayAve);
+
+
+        return new Response(0,"",res);
     }
 }
