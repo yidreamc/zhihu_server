@@ -36,6 +36,8 @@ public class UserInfo {
 
     private String avatar;
 
+    private String wid;
+
     @JsonIgnore
     private String qOpenId;
 
@@ -66,6 +68,14 @@ public class UserInfo {
     }
 
     public UserInfo() {
+    }
+
+    public String getWid() {
+        return wid;
+    }
+
+    public void setWid(String wid) {
+        this.wid = wid;
     }
 
     public int getId() {
