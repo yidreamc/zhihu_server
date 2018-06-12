@@ -56,7 +56,7 @@ public class QAuthController {
             return new Response(10008,"验证码错误");
         }
         userInfo = new UserInfo();
-        userInfo.setUserName(uname + getRandomString(5));
+        userInfo.setUserName(uname);
         userInfo.setTel(tel);
         userInfo.setqOpenId(openId);
         userInfo.setPassWord(new BCryptPasswordEncoder().encode(pwd));
