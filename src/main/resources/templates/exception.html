@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+    <ul>
+        <li v-for="text in texts">
+            <pre>{{ text.text }}</pre>
+
+        </li>
+    </ul>
+</div>
+
+
+<script>
+
+    var mv = new Vue({
+        el: "#app",
+        data: {
+            texts: [
+
+            ]
+        },
+        mounted() {
+            var that = this;
+            axios.get('http://120.78.149.248:8080/exception')
+                .then(function (response) {
+                    console.log(response.data)
+                    that.texts = response.data
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    });
+</script>
+</body>
+</html>
