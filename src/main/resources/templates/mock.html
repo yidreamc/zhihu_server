@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>智护Control</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <style>
+        h2{
+          text-align: center;
+        }
+        button{
+            display: block;
+            width: 80%;
+            height: 40px;
+            margin: 20px auto 0 auto;
+        }
+
+    </style>
+</head>
+<body>
+
+<h2>智护Control</h2>
+
+
+<div>
+    <button onclick="help()">一键求助</button>
+
+    <button onclick="diedao()">跌倒报警</button>
+
+    <button onclick="xinlv()">心率报警</button>
+</div>
+
+
+
+<script>
+    var host = "http://120.78.149.248:8080/mock";
+
+    // var host = "http://120.78.149.248:8080/";
+
+    function help() {
+        axios.get(host + '/help')
+            .then(function (response) {
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function diedao() {
+        axios.get(host + '/diedao')
+            .then(function (response) {
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function xinlv() {
+        axios.get(host + '/xinlv')
+            .then(function (response) {
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
+
+</script>
+</body>
+</html>

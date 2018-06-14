@@ -7,7 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class StaticController {
 
     @GetMapping("/showexception")
-    public Object exs(){
+    public String exs(){
         return "sexception";
+    }
+
+    @GetMapping("/mock")
+    public String mock(){
+        return "mock";
     }
 }
