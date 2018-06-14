@@ -8,6 +8,6 @@ public class StaticController {
 
     @GetMapping("/showexception")
     public Object exs(){
-        return "exception";
+        return "sexception";
     }
 }
