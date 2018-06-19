@@ -78,6 +78,9 @@ public class UserRestController {
         res.put("remark",user.getRemarks());
         res.put("fence",fencePoints);
         res.put("equipment",equipment);
+        res.put("height",user.getHeight());
+        res.put("weight",user.getWeight());
+        res.put("avatar",user.getAvatar());
 
 
         return new Response(0,"success",res);
