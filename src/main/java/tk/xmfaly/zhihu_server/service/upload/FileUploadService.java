@@ -15,6 +15,9 @@ public class FileUploadService {
     }
 
     public String upload(MultipartFile file){
+        if(file == null){
+            return "";
+        }
         String now = String.valueOf(System.currentTimeMillis());
         storageService.store(file,now + file.getOriginalFilename());
         return now + file.getOriginalFilename();
