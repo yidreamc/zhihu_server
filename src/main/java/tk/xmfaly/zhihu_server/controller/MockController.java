@@ -15,19 +15,19 @@ public class MockController {
 
     @GetMapping("/help")
     public Object help() throws Exception {
-        pushService.sendAndroidBroadcast("有老人在您附近寻求帮助，请给予帮助！","老人在您附近寻求帮助，请给予帮助！","老人在您附近寻求帮助，请给予帮助！");
+        pushService.sendAndroidBroadcast("有老人在您附近寻求帮助","老人在您附近寻求帮助，请给予帮助！","老人在您附近寻求帮助，请给予帮助！");
         return "1";
     }
 
     @GetMapping("/diedao")
     public Object diedao() throws Exception {
-        pushService.sendAndroidBroadcast("您的老人发生了跌倒，请及时确认！","您的老人发生了跌倒，请及时确认！","您的老人发生了跌倒，请及时确认！");
+        pushService.sendAndroidBroadcast("您的老人发生了跌倒！","您的老人发生了跌倒，请及时确认！","您的老人发生了跌倒，请及时确认！");
         return "1";
     }
 
     @GetMapping("/xinlv")
     public Object xinlv() throws Exception {
-        pushService.sendAndroidBroadcast("您的老人有心率异常，请及时确认！","您的老人有心率异常，请及时确认！","您的老人有心率异常，请及时确认！");
+        pushService.sendAndroidBroadcast("您的老人有心率异常","您的老人有心率异常，请及时确认！","您的老人有心率异常，请及时确认！");
         return "1";
     }
 }
