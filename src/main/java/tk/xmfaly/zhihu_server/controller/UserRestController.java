@@ -86,6 +86,39 @@ public class UserRestController {
         return new Response(0,"success",res);
     }
 
+    @RequestMapping(value = "/user2", method = RequestMethod.GET)
+    public Response getuser(String eid) {
+
+        Equipment equipment = equipmentRepository.findById(eid);
+        int uid = equipment.getUserInfoId();
+        UserInfo user = userInfoRepository.findOne(uid);
+
+        Fence fence = fenceRepository.findByUserinfoId(user.getId());
+
+        Iterable<FencePoint> fencePoints;
+        if(fence != null){
+            fencePoints = fencePointRepository.findByFenceId(fence.getId());
+        }else {
+            fencePoints = null;
+        }
+
+        Map<String,Object> res = new HashMap<>();
+        res.put("id",user.getId());
+        res.put("userName",user.getUserName());
+        res.put("tel",user.getTel());
+        res.put("age",user.getAge());
+        res.put("addr",user.getAddr());
+        res.put("remark",user.getRemarks());
+        res.put("fence",fencePoints);
+        res.put("equipment",equipment);
+        res.put("height",user.getHeight());
+        res.put("weight",user.getWeight());
+        res.put("avatar",user.getAvatar());
+
+
+        return new Response(0,"success",res);
+    }
+
     //头像、年龄、体重、身高、地址、手机、备注
     @PostMapping("/updateUserInfo")
     public Response updateUserInfo(MultipartFile avatar, int age, String weight, String height, String addr, String phone, String remark,int uid){

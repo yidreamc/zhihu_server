@@ -71,8 +71,6 @@ public class AuthenticationRestController {
             return new Response(10005,"密码错误");
         }
 
-
-
         // Reload password post-security so we can generate token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
