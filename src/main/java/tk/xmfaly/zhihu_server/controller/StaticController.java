@@ -15,4 +15,14 @@ public class StaticController {
     public String mock(){
         return "mock";
     }
+
+    @GetMapping("/userinfo")
+    public String ff(String id){
+        return "redirect:/ssuserinfo?id=" + id;
+    }
+
+    @GetMapping("/ssuserinfo")
+    public String ss(){
+        return "oldInformation";
+    }
 }
