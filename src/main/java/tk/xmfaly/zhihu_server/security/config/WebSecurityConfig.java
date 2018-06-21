@@ -76,14 +76,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/*.gif"
                 ).permitAll()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/exception").permitAll()
-                .antMatchers("/showexception").permitAll()
-                .antMatchers("/auth").permitAll()
-                .antMatchers("/auth2").permitAll()
-                .antMatchers("/user/reg").permitAll()
-                .antMatchers("/getCode").permitAll()
-                .antMatchers("/qauth/**").permitAll()
-                .antMatchers("/test/**").permitAll()
+
+//                .antMatchers("/exception").permitAll()
+//                .antMatchers("/showexception").permitAll()
+//                .antMatchers("/auth").permitAll()
+//                .antMatchers("/auth2").permitAll()
+//                .antMatchers("/user/reg").permitAll()
+//                .antMatchers("/getCode").permitAll()
+//                .antMatchers("/qauth/**").permitAll()
+//                .antMatchers("/test/**").permitAll()
+
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter
