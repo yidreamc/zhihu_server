@@ -30,4 +30,11 @@ public class MockController {
         pushService.sendAndroidBroadcast("您的老人有心率异常","您的老人有心率异常，请及时确认！","您的老人有心率异常，请及时确认！");
         return "1";
     }
+
+
+    @GetMapping("/zc")
+    public Object zc() throws Exception {
+        pushService.sendAndroidBroadcast("您的老人走出了电子围栏","您的老人走出了电子围栏，请及时确认！","您的老人走出了电子围栏，请及时确认！");
+        return "1";
+    }
 }

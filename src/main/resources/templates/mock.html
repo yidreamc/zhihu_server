@@ -31,6 +31,8 @@
     <button onclick="diedao()">跌倒报警</button>
 
     <button onclick="xinlv()">心率报警</button>
+
+    <button onclick="zc()">走出围栏</button>
 </div>
 
 
@@ -61,6 +63,15 @@
 
     function xinlv() {
         axios.get(host + '/xinlv')
+            .then(function (response) {
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function zc() {
+        axios.get(host + '/zc')
             .then(function (response) {
             })
             .catch(function (error) {
