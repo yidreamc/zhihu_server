@@ -2,12 +2,15 @@ package tk.xmfaly.zhihu_server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tk.xmfaly.zhihu_server.dto.Response;
 import tk.xmfaly.zhihu_server.entity.Help;
 import tk.xmfaly.zhihu_server.repository.HelpRepository;
 import tk.xmfaly.zhihu_server.service.PushService;
+
+import javax.persistence.GeneratedValue;
 
 @RestController
 @RequestMapping("/mock")
@@ -63,5 +66,11 @@ public class MockController {
     public Response allhelp(){
         Iterable iterable = helpRepository.findAll();
         return new Response(0,"",iterable);
+    }
+
+    @GetMapping("/deleteall")
+    public Object dall(){
+        helpRepository.deleteAll();
+        return "0";
     }
 }

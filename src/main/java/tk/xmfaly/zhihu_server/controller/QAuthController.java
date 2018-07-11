@@ -37,8 +37,8 @@ public class QAuthController {
 
         //是我们的用户
         if(userInfo != null){
-            String token = jwtTokenUtil.generateToken(userInfo);
-            return new Response(0,"",token);
+            String t = jwtTokenUtil.generateToken(userInfo);
+            return new Response(0,"",t);
         }else {
             return new Response(1,"没有使用qq登陆过");
         }
