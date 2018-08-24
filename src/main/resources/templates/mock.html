@@ -33,8 +33,6 @@
     <button onclick="xinlv()">心率报警</button>
 
     <button onclick="zc()">走出围栏</button>
-
-    <button onclick="dall()">删除所有帮助</button>
 </div>
 
 
@@ -74,15 +72,6 @@
 
     function zc() {
         axios.get(host + '/zc')
-            .then(function (response) {
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    function dall() {
-        axios.get(host + '/deleteall')
             .then(function (response) {
             })
             .catch(function (error) {
