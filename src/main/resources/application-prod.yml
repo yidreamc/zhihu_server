@@ -2,7 +2,7 @@ spring:
   application:
     name: zhihu_server
   datasource:
-    url: jdbc:mysql://120.78.149.248:3306/zhihu_server
+    url: jdbc:mysql://127.0.0.1:3306/zhihu_server
     username: root
     password: xmfaly
     test-while-idle: true
@@ -18,7 +18,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
   data:
     mongodb:
-      host: 120.78.149.248
+      host: 127.0.0.1
       database: zhihu_server
       port: 27017
 jackson:
